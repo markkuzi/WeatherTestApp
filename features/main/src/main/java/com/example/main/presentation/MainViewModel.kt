@@ -17,7 +17,7 @@ class MainViewModel(
         get() = _mainWeather
 
     init {
-        getMainWeather("Санкт Петербург")
+        getMainWeather("Moscow")
     }
 
     fun getMainWeather(city: String) {

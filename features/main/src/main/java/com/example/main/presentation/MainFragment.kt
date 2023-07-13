@@ -9,8 +9,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.example.main.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
+
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +32,14 @@ class MainFragment : Fragment() {
 
         val details = view.findViewById<Button>(R.id.details)
         val forecast = view.findViewById<Button>(R.id.forecast)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(10000)
+            viewModel.mainWeather.observe(viewLifecycleOwner) {
+                details.text = it.name
+            }
+
+        }
 
         details.setOnClickListener {
             findNavController().navigate(Uri.parse("weatherTestApp://details"))

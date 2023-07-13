@@ -12,10 +12,10 @@ class MainRepositoryImpl(
             val mainWeatherDto = service.getMainWeather(city)
             return MainWeather(
                 mainWeatherDto.name,
-                mainWeatherDto.temp,
-                mainWeatherDto.humidity,
-                mainWeatherDto.pressure,
-                mainWeatherDto.windSpeed,
+                mainWeatherDto.main.temp,
+                mainWeatherDto.main.humidity,
+                mainWeatherDto.main.pressure,
+                mainWeatherDto.wind.windSpeed,
             )
         } catch (e: Exception) {
             return MainWeather(
