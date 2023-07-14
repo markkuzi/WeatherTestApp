@@ -18,7 +18,7 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -30,12 +30,9 @@ class MainFragment : Fragment() {
         val details = view.findViewById<Button>(R.id.details)
         val forecast = view.findViewById<Button>(R.id.forecast)
         val cityName = view.findViewById<TextView>(R.id.cityName)
-        viewModel.init(cityName.text.isEmpty())
-
         viewModel.mainWeather.observe(viewLifecycleOwner) {
             cityName.text = it.name
         }
-
         details.setOnClickListener {
             findNavController().navigate(Uri.parse("weatherTestApp://details"))
         }

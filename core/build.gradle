@@ -32,7 +32,6 @@ android {
 
 dependencies {
 
-    implementation project(path: ':features:main')
     implementation project(path: ':features:details')
     implementation project(path: ':features:forecast')
 
