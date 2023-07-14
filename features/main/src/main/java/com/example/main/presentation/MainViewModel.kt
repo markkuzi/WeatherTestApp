@@ -3,27 +3,26 @@ package com.example.main.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.main.domain.GetMainWeatherUseCase
+import com.example.main.domain.MainWeatherUseCase
 import com.example.main.domain.entity.MainWeather
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val getMainWeatherUseCase: GetMainWeatherUseCase
+    private val mainWeatherUseCase: MainWeatherUseCase
 ): ViewModel() {
 
-    private var _mainWeather = MutableLiveData<MainWeather>()
-    val mainWeather: LiveData<MainWeather>
-        get() = _mainWeather
 
-    init {
-        getMainWeather("Moscow")
-    }
+    val mainWeather = mainWeatherUseCase.getMainWeather().asLiveData()
 
-    fun getMainWeather(city: String) {
+    fun loadWeather(city: String) {
         viewModelScope.launch {
-            _mainWeather.value = getMainWeatherUseCase.getMainWeather(city)
+            mainWeatherUseCase.loadWeather(city)
         }
     }
 
+    fun init(firstRun: Boolean) {
+        loadWeather("Санкт Петербург")
+    }
 }

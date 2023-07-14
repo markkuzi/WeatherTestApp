@@ -10,6 +10,6 @@ interface NetworkService {
         @Query("q") city: String,
         @Query("units") units: String = "metric",
         @Query("lang") language: String = "en",
-        @Query("appid") appId: String = "06c921750b9a82d8f5d1294e1586276f"
+        @Query("appid") appId: String = "ec879d85094b4d1f93b19ce50af89f6a"
     ) : WeatherDto
 }

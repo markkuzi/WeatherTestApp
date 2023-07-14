@@ -2,17 +2,14 @@ package com.example.main.presentation
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.main.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
@@ -32,13 +29,11 @@ class MainFragment : Fragment() {
 
         val details = view.findViewById<Button>(R.id.details)
         val forecast = view.findViewById<Button>(R.id.forecast)
+        val cityName = view.findViewById<TextView>(R.id.cityName)
+        viewModel.init(cityName.text.isEmpty())
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(1000)
-            viewModel.mainWeather.observe(viewLifecycleOwner) {
-                details.text = it.name
-            }
-
+        viewModel.mainWeather.observe(viewLifecycleOwner) {
+            cityName.text = it.name
         }
 
         details.setOnClickListener {
@@ -48,9 +43,5 @@ class MainFragment : Fragment() {
         forecast.setOnClickListener {
             findNavController().navigate(Uri.parse("weatherTestApp://forecast"))
         }
-
-
     }
-
-
 }

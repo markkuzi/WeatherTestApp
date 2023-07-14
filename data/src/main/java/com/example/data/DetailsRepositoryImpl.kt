@@ -14,20 +14,20 @@ class DetailsRepositoryImpl(
     override fun getDetailsWeather(): Flow<DetailsWeather> {
         return cacheWeatherRequest.loadCacheWeatherInfo().transform {
             emit(DetailsWeather(
-                it.name,
-                it.weather.first().main,
-                it.weather.first().description,
-                it.main.temp,
-                it.main.feelsLike,
-                it.main.tempMin,
-                it.main.tempMax,
-                it.main.humidity,
-                it.main.pressure,
-                it.wind.windSpeed,
-                it.wind.deg,
-                it.wind.gust,
-                it.systemWeatherInfo.sunrise,
-                it.systemWeatherInfo.sunset
+                it.name ?: "-",
+                it.weather?.first()?.main ?: "-",
+                it.weather?.first()?.description ?: "-",
+                it.main?.temp ?: "-",
+                it.main?.feelsLike ?: "-",
+                it.main?.tempMin ?: "-",
+                it.main?.tempMax ?: "-",
+                it.main?.humidity ?: "-",
+                it.main?.pressure ?: "-",
+                it.wind?.windSpeed ?: "-",
+                it.wind?.deg ?: "-",
+                it.wind?.gust ?: "-",
+                it.systemWeatherInfo?.sunrise ?: "-",
+                it.systemWeatherInfo?.sunset ?: "-",
             ))
         }
     }

@@ -1,7 +1,7 @@
 package com.example.weathertestapp.di.modules
 
 import com.example.data.MainRepositoryImpl
-import com.example.main.domain.GetMainWeatherUseCase
+import com.example.main.domain.MainWeatherUseCase
 import com.example.main.domain.MainRepository
 import com.example.main.presentation.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -16,13 +16,13 @@ val mainModule = module {
         )
     }
 
-    factory<GetMainWeatherUseCase> {
-        GetMainWeatherUseCase(repository = get())
+    factory<MainWeatherUseCase> {
+        MainWeatherUseCase(repository = get())
     }
 
     viewModel {
         MainViewModel(
-            getMainWeatherUseCase = get(),
+            mainWeatherUseCase = get(),
         )
     }
 
