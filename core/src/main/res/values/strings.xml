@@ -1,0 +1,4 @@
+<resources>
+    <string name="error_result">Error</string>
+    <string name="try_again_button">Try again</string>
+</resources>

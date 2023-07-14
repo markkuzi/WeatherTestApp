@@ -9,35 +9,38 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.core.BaseFragment
+import com.example.core.onTryAgain
+import com.example.core.setSimpleViewStatusVisibility
 import com.example.main.R
+import com.example.main.databinding.FragmentMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment(R.layout.fragment_main) {
 
     private val viewModel by viewModel<MainViewModel>()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
+    private val binding by viewBinding(FragmentMainBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val details = view.findViewById<Button>(R.id.details)
-        val forecast = view.findViewById<Button>(R.id.forecast)
-        val cityName = view.findViewById<TextView>(R.id.cityName)
         viewModel.mainWeather.observe(viewLifecycleOwner) {
-            cityName.text = it.name
-        }
-        details.setOnClickListener {
-            findNavController().navigate(Uri.parse("weatherTestApp://details"))
+            binding.cityName.text = it.name
         }
 
-        forecast.setOnClickListener {
+        viewModel.viewState.observe(viewLifecycleOwner) {
+            setSimpleViewStatusVisibility(root = binding.root, state = it)
+        }
+
+        onTryAgain(root = binding.root) {
+            viewModel.loadWeather("санкт петербург")
+        }
+
+        binding.details.setOnClickListener {
+            findNavController().navigate(Uri.parse("weatherTestApp://details"))
+        }
+        binding.forecast.setOnClickListener {
             findNavController().navigate(Uri.parse("weatherTestApp://forecast"))
         }
     }
