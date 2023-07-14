@@ -1,5 +1,7 @@
 package com.example.weathertestapp.di.modules
 
+import com.example.data.cache.CacheWeatherRequest
+import com.example.data.cache.CacheWeatherRequestImpl
 import com.example.data.network.NetworkService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -28,5 +30,13 @@ val networkModule = module {
     }
 
     factory<NetworkService>{ get<Retrofit>().create(NetworkService::class.java) }
+
+}
+
+val cacheModule = module {
+
+    single<CacheWeatherRequest>{
+        CacheWeatherRequestImpl()
+    }
 
 }

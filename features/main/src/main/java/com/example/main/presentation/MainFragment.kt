@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
         val forecast = view.findViewById<Button>(R.id.forecast)
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(10000)
+            delay(1000)
             viewModel.mainWeather.observe(viewLifecycleOwner) {
                 details.text = it.name
             }

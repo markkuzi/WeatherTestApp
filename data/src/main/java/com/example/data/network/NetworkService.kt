@@ -11,5 +11,5 @@ interface NetworkService {
         @Query("units") units: String = "metric",
         @Query("lang") language: String = "en",
         @Query("appid") appId: String = "06c921750b9a82d8f5d1294e1586276f"
-    ) : MainWeatherDto
+    ) : WeatherDto
 }

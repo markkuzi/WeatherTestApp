@@ -1,9 +1,10 @@
 package com.example.details.domain
 
 import com.example.details.domain.entity.DetailsWeather
+import kotlinx.coroutines.flow.Flow
 
 interface DetailsRepository {
 
-    suspend fun getDetailsWeather(): DetailsWeather
+    fun getDetailsWeather(): Flow<DetailsWeather>
 
 }

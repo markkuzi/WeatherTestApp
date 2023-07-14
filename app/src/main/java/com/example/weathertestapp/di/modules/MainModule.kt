@@ -12,6 +12,7 @@ val mainModule = module {
     single<MainRepository> {
         MainRepositoryImpl(
             service = get(),
+            cacheWeatherRequest = get(),
         )
     }
 
