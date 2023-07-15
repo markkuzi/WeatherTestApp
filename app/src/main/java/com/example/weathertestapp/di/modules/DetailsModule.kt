@@ -12,6 +12,7 @@ val detailsModule = module {
     single<DetailsRepository> {
         DetailsRepositoryImpl(
             cacheWeatherRequest = get(),
+            mapper = get(),
         )
     }
 

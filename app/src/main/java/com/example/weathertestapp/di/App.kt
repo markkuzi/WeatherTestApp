@@ -6,6 +6,7 @@ import com.example.weathertestapp.di.modules.coreModule
 import com.example.weathertestapp.di.modules.detailsModule
 import com.example.weathertestapp.di.modules.forecastModule
 import com.example.weathertestapp.di.modules.mainModule
+import com.example.weathertestapp.di.modules.mapperModule
 import com.example.weathertestapp.di.modules.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -27,6 +28,7 @@ class App : Application() {
                 detailsModule,
                 forecastModule,
                 coreModule,
+                mapperModule,
             )
         }
     }

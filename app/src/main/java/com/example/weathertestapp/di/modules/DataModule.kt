@@ -4,6 +4,9 @@ import com.example.data.cache.CacheForecastWeather
 import com.example.data.cache.CacheForecastWeatherRequest
 import com.example.data.cache.CacheMainWeather
 import com.example.data.cache.CacheMainWeatherRequest
+import com.example.data.mapper.DetailsWeatherMapper
+import com.example.data.mapper.ForecastWeatherMapper
+import com.example.data.mapper.MainWeatherMapper
 import com.example.data.network.NetworkService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -45,6 +48,22 @@ val cacheModule = module {
 
     single<CacheForecastWeatherRequest> {
         CacheForecastWeather()
+    }
+
+}
+
+val mapperModule = module {
+
+    factory<MainWeatherMapper> {
+        MainWeatherMapper.Base()
+    }
+
+    factory<DetailsWeatherMapper> {
+        DetailsWeatherMapper.Base()
+    }
+
+    factory<ForecastWeatherMapper> {
+        ForecastWeatherMapper.Base()
     }
 
 }
