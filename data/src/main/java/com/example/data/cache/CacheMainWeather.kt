@@ -1,21 +1,21 @@
 package com.example.data.cache
 
-import com.example.data.network.Main
-import com.example.data.network.SystemWeatherInfo
-import com.example.data.network.Weather
-import com.example.data.network.WeatherDto
-import com.example.data.network.Wind
+import com.example.data.network.models.Main
+import com.example.data.network.models.SystemWeatherInfo
+import com.example.data.network.models.Weather
+import com.example.data.network.models.WeatherDto
+import com.example.data.network.models.Wind
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class CacheWeatherRequestImpl: CacheWeatherRequest {
+class CacheMainWeather: CacheWeatherRequest<WeatherDto> {
 
     private val cacheWeather = MutableStateFlow(
         WeatherDto(
             0,
             "",
-            listOf(Weather("", "")),
+            listOf(Weather("", "", "")),
             Main("", "", "", "", "", ""),
             Wind("", "", ""),
             SystemWeatherInfo("", "")

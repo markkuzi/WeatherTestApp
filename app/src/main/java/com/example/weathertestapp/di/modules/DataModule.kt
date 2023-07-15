@@ -1,8 +1,9 @@
 package com.example.weathertestapp.di.modules
 
 import com.example.data.cache.CacheWeatherRequest
-import com.example.data.cache.CacheWeatherRequestImpl
+import com.example.data.cache.CacheMainWeather
 import com.example.data.network.NetworkService
+import com.example.data.network.models.WeatherDto
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,8 +36,8 @@ val networkModule = module {
 
 val cacheModule = module {
 
-    single<CacheWeatherRequest>{
-        CacheWeatherRequestImpl()
+    single<CacheWeatherRequest<WeatherDto>>{
+        CacheMainWeather()
     }
 
 }
