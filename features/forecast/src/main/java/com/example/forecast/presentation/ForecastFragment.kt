@@ -7,24 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.core.BaseFragment
 import com.example.forecast.R
+import com.example.forecast.databinding.FragmentForecastBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ForecastFragment : Fragment() {
+class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forecast, container, false)
-    }
+    private val viewModel by viewModel<ForecastViewModel>()
+    private val binding by viewBinding(FragmentForecastBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val backBtn = view.findViewById<Button>(R.id.backBtn)
+        viewModel.forecastWeather.observe(viewLifecycleOwner) {
+            if (it.cityName != "")
+                binding.backBtn.text = it.cityName
+        }
 
-        backBtn.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
 

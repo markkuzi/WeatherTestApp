@@ -1,9 +1,10 @@
 package com.example.weathertestapp.di.modules
 
-import com.example.data.cache.CacheWeatherRequest
+import com.example.data.cache.CacheForecastWeather
+import com.example.data.cache.CacheForecastWeatherRequest
 import com.example.data.cache.CacheMainWeather
+import com.example.data.cache.CacheMainWeatherRequest
 import com.example.data.network.NetworkService
-import com.example.data.network.models.WeatherDto
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,9 +19,11 @@ val networkModule = module {
             .setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
-    factory { OkHttpClient.Builder()
-        .addInterceptor(interceptor = get())
-        .build() }
+    factory {
+        OkHttpClient.Builder()
+            .addInterceptor(interceptor = get())
+            .build()
+    }
 
     single {
         Retrofit.Builder()
@@ -30,14 +33,18 @@ val networkModule = module {
             .build()
     }
 
-    factory<NetworkService>{ get<Retrofit>().create(NetworkService::class.java) }
+    factory<NetworkService> { get<Retrofit>().create(NetworkService::class.java) }
 
 }
 
 val cacheModule = module {
 
-    single<CacheWeatherRequest<WeatherDto>>{
+    single<CacheMainWeatherRequest> {
         CacheMainWeather()
+    }
+
+    single<CacheForecastWeatherRequest> {
+        CacheForecastWeather()
     }
 
 }

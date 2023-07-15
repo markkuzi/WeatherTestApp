@@ -61,5 +61,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
     // koin
-    implementation "io.insert-koin:koin-android:3.2.0"
+    def koinVersion = "3.2.0"
+    implementation "io.insert-koin:koin-android:$koinVersion"
+
+    //viewBinding delegate
+    def viewBindingDelegateVersion = "1.5.9"
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewBindingDelegateVersion"
 }

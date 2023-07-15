@@ -1,10 +1,8 @@
 package com.example.data
 
 import com.example.core.RequestCode
-import com.example.data.cache.CacheForecastWeather
-import com.example.data.cache.CacheWeatherRequest
+import com.example.data.cache.CacheForecastWeatherRequest
 import com.example.data.network.NetworkService
-import com.example.data.network.models.ForecastWeatherDto
 import com.example.forecast.domain.ForecastRepository
 import com.example.forecast.domain.entity.ForecastWeather
 import com.example.forecast.domain.entity.WeatherList
@@ -15,7 +13,7 @@ import java.net.UnknownHostException
 
 class ForecastRepositoryImpl(
     private val service: NetworkService,
-    private val cacheForecastWeather: CacheWeatherRequest<ForecastWeatherDto>,
+    private val cacheForecastWeather: CacheForecastWeatherRequest,
 ) : ForecastRepository {
     override suspend fun loadForecastWeather(city: String): RequestCode {
         try {
@@ -58,7 +56,7 @@ class ForecastRepositoryImpl(
         return cacheForecastWeather.loadCacheWeatherInfo().transform {
             emit(
                 ForecastWeather(
-                cityName = it.city?.cityName ?: "-",
+                    cityName = it.city?.cityName ?: "-",
                     it.weatherList?.map { listDto ->
                         WeatherList(
                             date = listDto.date ?: "-",
@@ -68,7 +66,7 @@ class ForecastRepositoryImpl(
                             temp = listDto.main?.temp ?: "-",
                         )
                     } ?: emptyList()
-            )
+                )
             )
         }
     }

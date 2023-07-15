@@ -1,9 +1,8 @@
 package com.example.data
 
 import com.example.core.RequestCode
-import com.example.data.cache.CacheWeatherRequest
+import com.example.data.cache.CacheMainWeatherRequest
 import com.example.data.network.NetworkService
-import com.example.data.network.models.WeatherDto
 import com.example.main.domain.MainRepository
 import com.example.main.domain.entity.MainWeather
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +12,7 @@ import java.net.UnknownHostException
 
 class MainRepositoryImpl(
     private val service: NetworkService,
-    private val cacheWeatherRequest: CacheWeatherRequest<WeatherDto>,
+    private val cacheWeatherRequest: CacheMainWeatherRequest,
 ) : MainRepository {
     override suspend fun loadWeather(city: String): RequestCode {
         try {

@@ -20,6 +20,10 @@ class ForecastViewModel(
     val viewState: LiveData<ViewState>
         get() = _viewState
 
+    init {
+        loadForecastWeather("саратов")
+    }
+
     fun loadForecastWeather(city: String) {
         viewModelScope.launch {
             _viewState.value = ViewState.Loading()

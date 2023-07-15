@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class CacheMainWeather: CacheWeatherRequest<WeatherDto> {
+class CacheMainWeather: CacheMainWeatherRequest {
 
     private val cacheWeather = MutableStateFlow(
         WeatherDto(
