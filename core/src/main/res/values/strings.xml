@@ -1,4 +1,10 @@
 <resources>
     <string name="error_result">Error</string>
     <string name="try_again_button">Try again</string>
+    <string name="no_connection_message">No internet connection!</string>
+    <string name="bad_request_message">Request parameters incorrect!</string>
+    <string name="unauthorized_message">API token incorrect!</string>
+    <string name="not_found_message">City not found!</string>
+    <string name="too_many_request_message">Too many requests!</string>
+    <string name="unexpected_error_message">Unexpected Error!</string>
 </resources>

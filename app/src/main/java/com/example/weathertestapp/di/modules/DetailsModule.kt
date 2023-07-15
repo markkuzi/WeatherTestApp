@@ -16,7 +16,9 @@ val detailsModule = module {
     }
 
     factory<GetDetailsWeatherUseCase> {
-        GetDetailsWeatherUseCase(repository = get())
+        GetDetailsWeatherUseCase(
+            repository = get(),
+        )
     }
 
     viewModel {

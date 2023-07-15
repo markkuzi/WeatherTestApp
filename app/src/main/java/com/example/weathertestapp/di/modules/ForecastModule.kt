@@ -13,11 +13,14 @@ val forecastModule = module {
         ForecastRepositoryImpl(
             service = get(),
             cacheForecastWeather = get(),
+            handleError = get(),
         )
     }
 
     factory<ForecastWeatherUseCase> {
-        ForecastWeatherUseCase(repository = get())
+        ForecastWeatherUseCase(
+            repository = get(),
+        )
     }
 
     viewModel {

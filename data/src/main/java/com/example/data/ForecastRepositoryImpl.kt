@@ -1,6 +1,7 @@
 package com.example.data
 
-import com.example.core.RequestCode
+import com.example.core.HandleError
+import com.example.core.ResponseResult
 import com.example.data.cache.CacheForecastWeatherRequest
 import com.example.data.network.NetworkService
 import com.example.forecast.domain.ForecastRepository
@@ -8,48 +9,18 @@ import com.example.forecast.domain.entity.ForecastWeather
 import com.example.forecast.domain.entity.WeatherList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
-import retrofit2.HttpException
-import java.net.UnknownHostException
 
 class ForecastRepositoryImpl(
     private val service: NetworkService,
     private val cacheForecastWeather: CacheForecastWeatherRequest,
+    private val handleError: HandleError<String>,
 ) : ForecastRepository {
-    override suspend fun loadForecastWeather(city: String): RequestCode {
-        try {
-            val forecastWeatherDto = service.getForecastWeather(city)
-            cacheForecastWeather.saveCacheWeatherInfo(forecastWeatherDto)
-            return RequestCode.SUCCESS
-        } catch (e: Exception) {
-            when (e) {
-                is HttpException -> {
-                    return when (e.code()) {
-                        RequestCode.BAD_REQUEST.code -> {
-                            RequestCode.BAD_REQUEST
-                        }
-
-                        RequestCode.UNAUTHORIZED.code -> {
-                            RequestCode.UNAUTHORIZED
-                        }
-
-                        RequestCode.NOT_FOUND.code -> {
-                            RequestCode.NOT_FOUND
-                        }
-
-                        RequestCode.TOO_MANY_REQUEST.code -> {
-                            RequestCode.TOO_MANY_REQUEST
-                        }
-
-                        else -> {
-                            RequestCode.ERROR
-                        }
-                    }
-                }
-
-                is UnknownHostException -> return RequestCode.NO_INTERNET_ERROR
-                else -> return RequestCode.ERROR
-            }
-        }
+    override suspend fun loadForecastWeather(city: String): ResponseResult = try {
+        val forecastWeatherDto = service.getForecastWeather(city)
+        cacheForecastWeather.saveCacheWeatherInfo(forecastWeatherDto)
+        ResponseResult.Success()
+    } catch (e: Exception) {
+        ResponseResult.Error(handleError.handle(e))
     }
 
     override fun getForecastWeather(): Flow<ForecastWeather> {

@@ -2,6 +2,7 @@ package com.example.weathertestapp.di
 
 import android.app.Application
 import com.example.weathertestapp.di.modules.cacheModule
+import com.example.weathertestapp.di.modules.coreModule
 import com.example.weathertestapp.di.modules.detailsModule
 import com.example.weathertestapp.di.modules.forecastModule
 import com.example.weathertestapp.di.modules.mainModule
@@ -19,7 +20,14 @@ class App : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
-            modules(networkModule, cacheModule, mainModule, detailsModule, forecastModule)
+            modules(
+                networkModule,
+                cacheModule,
+                mainModule,
+                detailsModule,
+                forecastModule,
+                coreModule,
+            )
         }
     }
 }

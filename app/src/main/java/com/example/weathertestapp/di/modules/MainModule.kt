@@ -1,8 +1,8 @@
 package com.example.weathertestapp.di.modules
 
 import com.example.data.MainRepositoryImpl
-import com.example.main.domain.MainWeatherUseCase
 import com.example.main.domain.MainRepository
+import com.example.main.domain.MainWeatherUseCase
 import com.example.main.presentation.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -13,11 +13,14 @@ val mainModule = module {
         MainRepositoryImpl(
             service = get(),
             cacheWeatherRequest = get(),
+            handleError = get(),
         )
     }
 
     factory<MainWeatherUseCase> {
-        MainWeatherUseCase(repository = get())
+        MainWeatherUseCase(
+            repository = get(),
+        )
     }
 
     viewModel {
