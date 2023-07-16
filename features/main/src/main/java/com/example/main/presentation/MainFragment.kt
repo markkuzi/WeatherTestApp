@@ -3,6 +3,7 @@ package com.example.main.presentation
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.text.isDigitsOnly
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.BaseFragment

@@ -21,7 +21,7 @@ class ForecastViewModel(
         get() = _viewState
 
     init {
-        loadForecastWeather("саратов")
+        loadForecastWeather("эль калафате")
     }
 
     fun loadForecastWeather(city: String) {

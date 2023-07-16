@@ -11,6 +11,7 @@ interface ForecastWeatherMapper : Mapper<ForecastWeather, ForecastWeatherDto> {
     class Base(
         private val dateMapper: DateWeatherMapper,
         private val iconMapper: WeatherIconMapper,
+        private val tempMapper: WeatherTempMapper,
     ) : ForecastWeatherMapper {
         override fun map(source: ForecastWeatherDto): ForecastWeather = ForecastWeather(
             cityName = source.city?.cityName ?: "-",
@@ -20,7 +21,7 @@ interface ForecastWeatherMapper : Mapper<ForecastWeather, ForecastWeatherDto> {
                     main = listDto.weather?.first()?.main ?: "-",
                     description = listDto.weather?.first()?.description ?: "-",
                     icon = iconMapper.map(listDto.weather?.first()?.icon ?: "-"),
-                    temp = listDto.main?.temp ?: "-",
+                    temp = tempMapper.map(listDto.main?.temp ?: "-"),
                 )
             } ?: emptyList()
         )

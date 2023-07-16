@@ -10,16 +10,17 @@ interface DetailsWeatherMapper : Mapper<DetailsWeather, WeatherDto> {
     class Base(
         private val dateMapper: DateWeatherMapper,
         private val iconMapper: WeatherIconMapper,
+        private val tempMapper: WeatherTempMapper,
         ) : DetailsWeatherMapper {
         override fun map(source: WeatherDto): DetailsWeather = DetailsWeather(
             date = dateMapper.map(source.date ?: "", source.timeZone ?: ""),
             name = source.name ?: "-",
             weatherMain = source.weather?.first()?.main ?: "-",
             weatherDescription = source.weather?.first()?.description ?: "-",
-            temp = source.main?.temp ?: "-",
-            feelsLike = source.main?.feelsLike ?: "-",
-            tempMin = source.main?.tempMin ?: "-",
-            tempMax = source.main?.tempMax ?: "-",
+            temp = tempMapper.map(source.main?.temp ?: "-"),
+            feelsLike = tempMapper.map(source.main?.feelsLike ?: "-"),
+            tempMin = tempMapper.map(source.main?.tempMin ?: "-"),
+            tempMax = tempMapper.map(source.main?.tempMax ?: "-"),
             humidity = source.main?.humidity ?: "-",
             pressure = source.main?.pressure ?: "-",
             windSpeed = source.wind?.windSpeed ?: "-",
