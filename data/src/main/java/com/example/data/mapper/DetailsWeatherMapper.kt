@@ -7,7 +7,10 @@ import com.example.details.domain.entity.DetailsWeather
 
 interface DetailsWeatherMapper : Mapper<DetailsWeather, WeatherDto> {
 
-    class Base(private val dateMapper: DateWeatherMapper) : DetailsWeatherMapper {
+    class Base(
+        private val dateMapper: DateWeatherMapper,
+        private val iconMapper: WeatherIconMapper,
+        ) : DetailsWeatherMapper {
         override fun map(source: WeatherDto): DetailsWeather = DetailsWeather(
             date = dateMapper.map(source.date ?: "", source.timeZone ?: ""),
             name = source.name ?: "-",
@@ -32,6 +35,7 @@ interface DetailsWeatherMapper : Mapper<DetailsWeather, WeatherDto> {
                 source.timeZone ?: "",
                 1,
             ),
+            icon = iconMapper.map(source.weather?.first()?.icon ?: ""),
         )
     }
 }

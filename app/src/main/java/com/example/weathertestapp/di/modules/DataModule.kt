@@ -6,6 +6,7 @@ import com.example.data.cache.CacheMainWeatherRequest
 import com.example.data.mapper.DetailsWeatherMapper
 import com.example.data.mapper.ForecastWeatherMapper
 import com.example.data.mapper.MainWeatherMapper
+import com.example.data.mapper.WeatherIconMapper
 import com.example.data.network.NetworkService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -56,23 +57,30 @@ val mapperModule = module {
     factory<MainWeatherMapper> {
         MainWeatherMapper.Base(
             dateMapper = get(),
+            iconMapper = get(),
         )
     }
 
     factory<DetailsWeatherMapper> {
         DetailsWeatherMapper.Base(
             dateMapper = get(),
+            iconMapper = get(),
         )
     }
 
     factory<ForecastWeatherMapper> {
         ForecastWeatherMapper.Base(
             dateMapper = get(),
+            iconMapper = get(),
         )
     }
 
     factory<DateWeatherMapper> {
         DateWeatherMapper.Base()
+    }
+
+    factory<WeatherIconMapper> {
+        WeatherIconMapper.Base()
     }
 
 }

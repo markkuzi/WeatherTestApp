@@ -7,4 +7,5 @@ data class MainWeather(
     val humidity: String,
     val pressure: String,
     val windSpeed: String,
+    val icon: Int,
 )

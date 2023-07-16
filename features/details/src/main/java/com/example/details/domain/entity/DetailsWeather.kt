@@ -16,4 +16,5 @@ data class DetailsWeather(
     val windGust: String,
     val sunrise: String,
     val sunset: String,
+    val icon: Int,
 )

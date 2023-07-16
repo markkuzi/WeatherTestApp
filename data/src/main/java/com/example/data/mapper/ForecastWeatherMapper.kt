@@ -8,7 +8,10 @@ import com.example.forecast.domain.entity.WeatherList
 
 interface ForecastWeatherMapper : Mapper<ForecastWeather, ForecastWeatherDto> {
 
-    class Base(private val dateMapper: DateWeatherMapper) : ForecastWeatherMapper {
+    class Base(
+        private val dateMapper: DateWeatherMapper,
+        private val iconMapper: WeatherIconMapper,
+    ) : ForecastWeatherMapper {
         override fun map(source: ForecastWeatherDto): ForecastWeather = ForecastWeather(
             cityName = source.city?.cityName ?: "-",
             source.weatherList?.map { listDto ->
@@ -16,7 +19,7 @@ interface ForecastWeatherMapper : Mapper<ForecastWeather, ForecastWeatherDto> {
                     date = dateMapper.map(listDto.date ?: "", source.city?.timeZone ?: ""),
                     main = listDto.weather?.first()?.main ?: "-",
                     description = listDto.weather?.first()?.description ?: "-",
-                    icon = listDto.weather?.first()?.icon ?: "-",
+                    icon = iconMapper.map(listDto.weather?.first()?.icon ?: "-"),
                     temp = listDto.main?.temp ?: "-",
                 )
             } ?: emptyList()

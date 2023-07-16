@@ -5,5 +5,5 @@ data class WeatherList(
     val temp: String,
     val main: String,
     val description: String,
-    val icon: String,
+    val icon: Int,
 )

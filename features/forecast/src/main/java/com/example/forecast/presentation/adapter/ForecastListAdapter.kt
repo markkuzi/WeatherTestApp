@@ -25,6 +25,7 @@ class ForecastListAdapter :
             tvTemp.text = weather.temp
             tvDate.text = weather.date
             tvDescription.text= weather.main
+            ivWeatherIcon.setImageResource(weather.icon)
         }
 
     }
