@@ -13,19 +13,22 @@ import com.example.core.onTryAgain
 import com.example.core.setSimpleViewStatusVisibility
 import com.example.forecast.R
 import com.example.forecast.databinding.FragmentForecastBinding
+import com.example.forecast.presentation.adapter.ForecastListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
 
     private val viewModel by viewModel<ForecastViewModel>()
     private val binding by viewBinding(FragmentForecastBinding::bind)
+    private val forecastAdapter by lazy { ForecastListAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.rvForecast.adapter = forecastAdapter
+
         viewModel.forecastWeather.observe(viewLifecycleOwner) {
-            if (it.cityName != "")
-                binding.backBtn.text = it.cityName
+            forecastAdapter.submitList(it.weatherList)
         }
 
         viewModel.viewState.observe(viewLifecycleOwner) {
@@ -36,7 +39,7 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
             viewModel.loadForecastWeather("санкт петербург")
         }
 
-        binding.backBtn.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
