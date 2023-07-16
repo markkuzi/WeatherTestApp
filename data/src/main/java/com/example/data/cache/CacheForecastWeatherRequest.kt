@@ -15,7 +15,6 @@ interface CacheForecastWeatherRequest : CacheWeatherRequest<ForecastWeatherDto> 
 
         private val cacheForecastWeather = MutableStateFlow(
             ForecastWeatherDto(
-                0,
                 listOf(
                     WeatherListDto(
                         "",
@@ -23,7 +22,7 @@ interface CacheForecastWeatherRequest : CacheWeatherRequest<ForecastWeatherDto> 
                         listOf(Weather("", "", ""))
                     )
                 ),
-                WeatherCityDto(""),
+                WeatherCityDto("", ""),
             )
         )
 

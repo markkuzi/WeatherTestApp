@@ -1,5 +1,6 @@
 package com.example.weathertestapp.di.modules
 
+import com.example.core.DateWeatherMapper
 import com.example.data.cache.CacheForecastWeatherRequest
 import com.example.data.cache.CacheMainWeatherRequest
 import com.example.data.mapper.DetailsWeatherMapper
@@ -53,15 +54,25 @@ val cacheModule = module {
 val mapperModule = module {
 
     factory<MainWeatherMapper> {
-        MainWeatherMapper.Base()
+        MainWeatherMapper.Base(
+            dateMapper = get(),
+        )
     }
 
     factory<DetailsWeatherMapper> {
-        DetailsWeatherMapper.Base()
+        DetailsWeatherMapper.Base(
+            dateMapper = get(),
+        )
     }
 
     factory<ForecastWeatherMapper> {
-        ForecastWeatherMapper.Base()
+        ForecastWeatherMapper.Base(
+            dateMapper = get(),
+        )
+    }
+
+    factory<DateWeatherMapper> {
+        DateWeatherMapper.Base()
     }
 
 }

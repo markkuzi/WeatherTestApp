@@ -15,12 +15,13 @@ interface CacheMainWeatherRequest : CacheWeatherRequest<WeatherDto> {
 
         private val cacheWeather = MutableStateFlow(
             WeatherDto(
-                0,
+                "",
+                "",
                 "",
                 listOf(Weather("", "", "")),
                 Main("", "", "", "", "", ""),
                 Wind("", "", ""),
-                SystemWeatherInfo("", "")
+                SystemWeatherInfo("", ""),
             )
         )
 

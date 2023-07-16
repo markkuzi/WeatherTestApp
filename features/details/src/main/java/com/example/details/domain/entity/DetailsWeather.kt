@@ -1,6 +1,7 @@
 package com.example.details.domain.entity
 
 data class DetailsWeather(
+    val date: String,
     val name: String,
     val weatherMain: String,
     val weatherDescription: String,

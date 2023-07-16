@@ -30,7 +30,7 @@ class DetailsFragment : Fragment() {
         val backBtn = view.findViewById<Button>(R.id.backBtn)
 
         viewModel.detailsWeather.observe(viewLifecycleOwner) {
-            backBtn.text = it.name
+            backBtn.text = it.sunset
         }
 
         backBtn.setOnClickListener {

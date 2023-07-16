@@ -2,12 +2,7 @@ package com.example.main.presentation
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.BaseFragment
@@ -26,7 +21,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.mainWeather.observe(viewLifecycleOwner) {
-            binding.cityName.text = it.name
+            binding.cityName.text = it.date
         }
 
         viewModel.viewState.observe(viewLifecycleOwner) {
