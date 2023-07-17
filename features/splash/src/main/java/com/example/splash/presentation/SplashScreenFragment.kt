@@ -11,11 +11,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.splash.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 class SplashScreenFragment : Fragment() {
+
+    private val coroutine by lazy { CoroutineScope(Dispatchers.Main) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,8 +31,8 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(1000)
+       coroutine.launch {
+            delay(SPLASH_SCREEN_TIME)
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.splashScreenFragment, true)
                 .build()
@@ -37,4 +40,12 @@ class SplashScreenFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutine.cancel()
+    }
+
+    companion object {
+        private const val SPLASH_SCREEN_TIME = 1000L
+    }
 }

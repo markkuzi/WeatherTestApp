@@ -2,7 +2,6 @@ package com.example.core
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.text.isDigitsOnly
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -12,29 +11,21 @@ interface DateWeatherMapper {
 
     fun map(time: String, timeZone: String = "0", dateFormatId: Int = 0): String
 
-    fun checkTime(number: String): Boolean
-
     fun setDateFormat(id: Int): String
 
     class Base : DateWeatherMapper {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun map(time: String, timeZone: String, dateFormatId: Int): String {
-            return if (checkTime(time)) {
+            return try {
                 val currentTimeZone = TimeZone.getDefault()
                 val offsetInMillis = currentTimeZone.rawOffset / 1000
-                val date = if (checkTime(timeZone)) {
-                    Date((time.toLong() + timeZone.toLong() - offsetInMillis) * 1000)
-                } else
-                    Date((time.toLong()-offsetInMillis) * 1000)
+                val date = Date((time.toLong() + timeZone.toLong() - offsetInMillis) * 1000)
                 val pattern =  setDateFormat(dateFormatId)
                 val sdf = SimpleDateFormat(pattern, Locale.getDefault())
                 sdf.format(date)
-            } else
+            } catch (e:Exception){
                 "-"
-        }
-
-        override fun checkTime(number: String): Boolean {
-            return (number.isDigitsOnly() && number.isNotEmpty())
+            }
         }
 
         override fun setDateFormat(id: Int): String {
