@@ -28,7 +28,7 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
         super.onViewCreated(view, savedInstanceState)
 
         cityName = arguments?.getString(CITY_NAME)
-        loadWeather()
+        viewModel.loadWeather(cityName ?: "")
         binding.tvCityName.text = cityName
         binding.rvForecast.adapter = forecastAdapter
 
@@ -43,11 +43,11 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
         }
 
         binding.btnRefresh.setOnClickListener {
-            loadWeather()
+            viewModel.refreshWeather(cityName ?: "")
         }
 
         onTryAgain(root = binding.root) {
-            loadWeather()
+            viewModel.refreshWeather(cityName ?: "")
         }
 
         binding.btnBack.setOnClickListener {
@@ -57,9 +57,6 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
     }
     companion object {
         private const val CITY_NAME = "cityName"
-    }
-    private fun loadWeather() {
-        viewModel.loadForecastWeather(cityName ?: "")
     }
 }
 

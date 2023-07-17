@@ -16,12 +16,19 @@ class ForecastRepositoryImpl(
     private val handleError: HandleError<String>,
     private val mapper: ForecastWeatherMapper,
 ) : ForecastRepository {
-    override suspend fun loadForecastWeather(city: String): ResponseResult = try {
-        val forecastWeatherDto = service.getForecastWeather(city)
-        cacheForecastWeather.saveCacheWeatherInfo(forecastWeatherDto)
-        ResponseResult.Success()
-    } catch (e: Exception) {
-        ResponseResult.Error(handleError.handle(e))
+
+    private var cityName: String? = null
+
+    override suspend fun loadForecastWeather(city: String, getCache: Boolean): ResponseResult {
+        try {
+            if (cityName == city && getCache) return ResponseResult.Success()
+            cityName = city
+            val forecastWeatherDto = service.getForecastWeather(city)
+            cacheForecastWeather.saveCacheWeatherInfo(forecastWeatherDto)
+            return ResponseResult.Success()
+        } catch (e: Exception) {
+            return ResponseResult.Error(handleError.handle(e))
+        }
     }
 
     override fun getForecastWeather(): Flow<ForecastWeather> =

@@ -24,13 +24,13 @@ class MainViewModel(
 
     init {
         if (mainWeather.value == null)
-            loadWeather("moscow")
+            loadWeather("Санкт Петербург")
     }
 
     fun loadWeather(city: String) {
         viewModelScope.launch {
             _viewState.value = ViewState.Loading()
-            val responseResult = mainWeatherUseCase.loadWeather(city)
+            val responseResult = mainWeatherUseCase.loadWeather(city.trim())
             when (responseResult) {
                 is ResponseResult.Success -> _viewState.value = ViewState.Success()
                 is ResponseResult.Error -> _viewState.value =

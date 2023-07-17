@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ForecastRepository {
 
-    suspend fun loadForecastWeather(city: String) : ResponseResult
+    suspend fun loadForecastWeather(city: String, getCache: Boolean) : ResponseResult
 
     fun getForecastWeather(): Flow<ForecastWeather>
 

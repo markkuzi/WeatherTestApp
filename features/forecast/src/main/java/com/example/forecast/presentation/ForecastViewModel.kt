@@ -20,10 +20,10 @@ class ForecastViewModel(
     val viewState: LiveData<ViewState>
         get() = _viewState
 
-    fun loadForecastWeather(city: String) {
+    private fun loadForecastWeather(city: String, getCache: Boolean) {
         viewModelScope.launch {
             _viewState.value = ViewState.Loading()
-            val responseResult = forecastWeatherUseCase.loadForecastWeather(city)
+            val responseResult = forecastWeatherUseCase.loadForecastWeather(city, getCache)
             when (responseResult) {
                 is ResponseResult.Success -> _viewState.value = ViewState.Success()
                 is ResponseResult.Error -> _viewState.value =
@@ -31,5 +31,14 @@ class ForecastViewModel(
             }
         }
     }
+
+    fun loadWeather(city: String) {
+        loadForecastWeather(city, true)
+    }
+
+    fun refreshWeather(city: String) {
+        loadForecastWeather(city, false)
+    }
+
 }
 
