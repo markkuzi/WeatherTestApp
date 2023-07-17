@@ -28,9 +28,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures{
+        viewBinding true
+    }
 }
 
 dependencies {
+
+    implementation project(path: ':core')
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -58,5 +63,7 @@ dependencies {
     // koin
     implementation "io.insert-koin:koin-android:3.2.0"
 
-
+    //viewBinding delegate
+    def viewBindingDelegateVersion = "1.5.9"
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewBindingDelegateVersion"
 }
