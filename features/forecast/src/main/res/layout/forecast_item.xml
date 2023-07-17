@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="@android:color/white"
-        android:textSize="20dp"
+        android:textSize="20sp"
         tools:text = "20 C"/>
 
     <TextView
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTemp"
         android:textColor="@android:color/white"
-        android:textSize="12dp"
+        android:textSize="12sp"
         tools:text = "23.10.2035"/>
 
     <TextView
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="@id/ivWeatherIcon"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@android:color/white"
-        android:textSize="16dp"
+        android:textSize="16sp"
         tools:text = "coldy"/>
 
     <ImageView

@@ -8,8 +8,8 @@ interface WeatherTempMapper: Mapper<String, String> {
     class Base : WeatherTempMapper {
         override fun map(source: String): String {
             try {
-                val temp = DecimalFormat("#.#").format(source.toDouble())
-                return if (temp.toDouble() > 0) "+$temp°C" else "$temp°C"
+                val temp = source.toDouble().toInt()
+                return if (temp > 0) "+$temp°C" else "$temp°C"
             } catch (e: Exception) {
                 return "-"
             }

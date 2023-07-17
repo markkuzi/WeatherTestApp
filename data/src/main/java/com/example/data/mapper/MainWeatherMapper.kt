@@ -16,10 +16,11 @@ interface MainWeatherMapper : Mapper<MainWeather, WeatherDto> {
             date = dateMapper.map(source.date ?: "", source.timeZone ?: ""),
             name = source.name ?: "-",
             temp = tempMapper.map(source.main?.temp ?: "-"),
-            humidity = source.main?.humidity ?: "-",
+            humidity = "${source.main?.humidity ?: "-"}%",
             pressure = source.main?.pressure ?: "-",
             windSpeed = source.wind?.windSpeed ?: "-",
-            icon = iconMapper.map(source.weather?.first()?.icon ?: "")
+            icon = iconMapper.map(source.weather?.first()?.icon ?: ""),
+            description = source.weather?.first()?.main ?: "-",
         )
     }
 }

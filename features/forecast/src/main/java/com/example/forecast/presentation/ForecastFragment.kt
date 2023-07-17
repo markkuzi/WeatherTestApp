@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.BaseFragment
+import com.example.core.ViewState
 import com.example.core.onTryAgain
 import com.example.core.setSimpleViewStatusVisibility
 import com.example.forecast.R
@@ -25,6 +26,8 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val cityName = arguments?.getString(CITY_NAME)
+        viewModel.loadForecastWeather(cityName ?: "")
         binding.rvForecast.adapter = forecastAdapter
 
         viewModel.forecastWeather.observe(viewLifecycleOwner) {
@@ -33,15 +36,20 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
 
         viewModel.viewState.observe(viewLifecycleOwner) {
             setSimpleViewStatusVisibility(root = binding.root, state = it)
+            if (it is ViewState.Error)
+                binding.btnBack.visibility = View.VISIBLE
         }
 
         onTryAgain(root = binding.root) {
-            viewModel.loadForecastWeather("санкт петербург")
+            viewModel.loadForecastWeather(cityName ?: "")
         }
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
+    }
+    companion object {
+        private const val CITY_NAME = "cityName"
     }
 }

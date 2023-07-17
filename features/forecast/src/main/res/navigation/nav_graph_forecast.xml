@@ -11,7 +11,11 @@
         android:label="fragment_forecast"
         tools:layout="@layout/fragment_forecast">
 
-        <deepLink app:uri="weatherTestApp://forecast" />
+        <deepLink app:uri="weatherTestApp://forecast/{cityName}" />
+
+        <argument
+            android:name="cityName"
+            app:argType="string" />
 
     </fragment>
 </navigation>

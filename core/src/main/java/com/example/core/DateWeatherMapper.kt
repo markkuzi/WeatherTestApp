@@ -6,6 +6,7 @@ import androidx.core.text.isDigitsOnly
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 interface DateWeatherMapper {
 
@@ -19,10 +20,12 @@ interface DateWeatherMapper {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun map(time: String, timeZone: String, dateFormatId: Int): String {
             return if (checkTime(time)) {
+                val currentTimeZone = TimeZone.getDefault()
+                val offsetInMillis = currentTimeZone.rawOffset / 1000
                 val date = if (checkTime(timeZone)) {
-                    Date((time.toLong() + timeZone.toLong()) * 1000)
+                    Date((time.toLong() + timeZone.toLong() - offsetInMillis) * 1000)
                 } else
-                    Date(time.toLong() * 1000)
+                    Date((time.toLong()-offsetInMillis) * 1000)
                 val pattern =  setDateFormat(dateFormatId)
                 val sdf = SimpleDateFormat(pattern, Locale.getDefault())
                 sdf.format(date)

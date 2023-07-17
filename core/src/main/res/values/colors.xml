@@ -2,5 +2,6 @@
 <resources>
 
     <color name="fragment_background">#48319D</color>
+    <color name="card_background">#FF6750A3</color>
 
 </resources>

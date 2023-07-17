@@ -15,6 +15,7 @@ class MainViewModel(
 ) : ViewModel() {
 
 
+
     val mainWeather = mainWeatherUseCase.getMainWeather().asLiveData()
 
     private var _viewState = MutableLiveData<ViewState>()
@@ -23,7 +24,7 @@ class MainViewModel(
 
     init {
         if (mainWeather.value == null)
-            loadWeather("sfasefas")
+            loadWeather("moscow")
     }
 
     fun loadWeather(city: String) {
