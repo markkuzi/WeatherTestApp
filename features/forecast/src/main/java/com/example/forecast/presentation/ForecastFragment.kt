@@ -22,12 +22,14 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
     private val viewModel by viewModel<ForecastViewModel>()
     private val binding by viewBinding(FragmentForecastBinding::bind)
     private val forecastAdapter by lazy { ForecastListAdapter() }
+    private var cityName: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val cityName = arguments?.getString(CITY_NAME)
-        viewModel.loadForecastWeather(cityName ?: "")
+        cityName = arguments?.getString(CITY_NAME)
+        loadWeather()
+        binding.tvCityName.text = cityName
         binding.rvForecast.adapter = forecastAdapter
 
         viewModel.forecastWeather.observe(viewLifecycleOwner) {
@@ -40,8 +42,12 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
                 binding.btnBack.visibility = View.VISIBLE
         }
 
+        binding.btnRefresh.setOnClickListener {
+            loadWeather()
+        }
+
         onTryAgain(root = binding.root) {
-            viewModel.loadForecastWeather(cityName ?: "")
+            loadWeather()
         }
 
         binding.btnBack.setOnClickListener {
@@ -52,4 +58,8 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
     companion object {
         private const val CITY_NAME = "cityName"
     }
+    private fun loadWeather() {
+        viewModel.loadForecastWeather(cityName ?: "")
+    }
 }
+

@@ -15,7 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="30sp"
+        android:layout_margin="8dp"
         tools:text = "20 C"/>
 
     <TextView
@@ -23,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTemp"
+        app:layout_constraintBottom_toBottomOf="@id/tvDescription"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         tools:text = "23.10.2035"/>
