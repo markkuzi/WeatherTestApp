@@ -15,4 +15,5 @@
     <dimen name="big_padding">12dp</dimen>
     <dimen name="head_temp_in_rv_size">30sp</dimen>
     <dimen name="main_card_value_size">30sp</dimen>
+    <dimen name="weather_name_size">30sp</dimen>
 </resources>

@@ -15,9 +15,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ivSplashScreen"
-        android:text="WEATHER APP"
+        android:text="@string/weather_app_name"
         android:textColor="@android:color/white"
-        android:textSize="30sp"/>
+        android:textSize="@dimen/weather_name_size"/>
 
     <ImageView
         android:id="@+id/ivSplashScreen"

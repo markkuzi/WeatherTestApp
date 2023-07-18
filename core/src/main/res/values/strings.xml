@@ -1,4 +1,5 @@
 <resources>
+    <string name="weather_app_name">WEATHER APP</string>
     <string name="error_result">Error</string>
     <string name="try_again_button">Try again</string>
     <string name="no_connection_message">No internet connection!</string>
@@ -28,5 +29,4 @@
     <string name="sunset_head">Sunset</string>
     <string name="back_button">BACK</string>
     <string name="last_update_head">Last update:</string>
-
 </resources>
