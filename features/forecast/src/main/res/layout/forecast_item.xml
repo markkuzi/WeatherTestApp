@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:layout_margin="12dp"
-    android:padding="12dp"
+    android:layout_margin="@dimen/big_margin"
+    android:padding="@dimen/big_padding"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/forecast_item_background">
@@ -15,8 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:layout_margin="8dp"
+        android:textSize="@dimen/head_temp_in_rv_size"
+        android:layout_margin="@dimen/normal_margin"
         tools:text = "20 C"/>
 
     <TextView
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/tvDescription"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
+        android:textSize="@dimen/small_head_text_size"
         tools:text = "23.10.2035"/>
 
     <TextView
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="@id/ivWeatherIcon"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="@dimen/normal_text_size"
         tools:text = "coldy"/>
 
     <ImageView

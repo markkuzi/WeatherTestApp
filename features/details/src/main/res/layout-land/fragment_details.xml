@@ -22,7 +22,7 @@
         android:id="@+id/tvTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:textColor="@android:color/white"
         android:textSize="@dimen/temp_head_text_size"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,8 +37,7 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/small_text_size"
         android:layout_marginRight="@dimen/small_margin"
-        app:layout_constraintTop_toBottomOf="@id/tvTemp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tvTemp"
         app:layout_constraintEnd_toStartOf="@id/tvUpdateTime"
         app:layout_constraintHorizontal_chainStyle="packed"
         android:text="@string/last_update_head"/>
@@ -49,8 +48,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:textSize="@dimen/small_text_size"
-        app:layout_constraintTop_toBottomOf="@id/tvTemp"
-        app:layout_constraintStart_toEndOf="@id/tvUpdateHead"
+        app:layout_constraintBottom_toBottomOf="@id/tvTemp"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="13.13.2013"/>
 
@@ -97,9 +95,9 @@
                         android:layout_height="wrap_content"
                         android:scaleType="fitCenter"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tvDescription"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toEndOf="@id/tvDescription"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView
                         android:id="@+id/tvDescription"
@@ -108,10 +106,10 @@
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/normal_text_size"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ivIcon"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Rains" />
+                        tools:text="Rains"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -420,7 +418,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/very_small_margin">
+                    android:layout_margin="@dimen/small_margin">
 
                     <TextView
                         android:id="@+id/tvSunriseHead"

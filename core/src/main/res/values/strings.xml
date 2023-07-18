@@ -7,4 +7,26 @@
     <string name="not_found_message">City not found!</string>
     <string name="too_many_request_message">Too many requests!</string>
     <string name="unexpected_error_message">Unexpected Error!</string>
+    <string name="details_button">DETAILS</string>
+    <string name="forecast_button">FORECAST</string>
+    <string name="wind_head">Wind</string>
+    <string name="name_of_city_dialog">Name of city</string>
+    <string name="search_button">SEARCH</string>
+    <string name="feels_like">Feels Like</string>
+    <string name="min_head">Min</string>
+    <string name="max_head">Max</string>
+    <string name="humidity_head">Humidity</string>
+    <string name="pressure_head">Pressure</string>
+    <string name="pressure_metric">hPa</string>
+    <string name="wind_speed_head">Wind speed</string>
+    <string name="wind_speed_metric">m/s</string>
+    <string name="gust_head">Gust</string>
+    <string name="gust_metric">m/s</string>
+    <string name="deg_head">Direction</string>
+    <string name="deg_metric">degrees</string>
+    <string name="sunrise_head">Sunrise</string>
+    <string name="sunset_head">Sunset</string>
+    <string name="back_button">BACK</string>
+    <string name="last_update_head">Last update:</string>
+
 </resources>

@@ -25,7 +25,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.mainWeather.observe(viewLifecycleOwner) {
-            binding.cityName.text = it.name
+            binding.tvCityName.text = it.name
             binding.tvTemp.text = it.temp
             binding.tvUpdateTime.text = it.date
             binding.tvDescription.text = it.description
@@ -48,7 +48,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         }
 
         binding.btnRefresh.setOnClickListener {
-            viewModel.loadWeather(binding.cityName.text.toString())
+            viewModel.loadWeather(binding.tvCityName.text.toString())
         }
 
         binding.btnDetails.setOnClickListener {
