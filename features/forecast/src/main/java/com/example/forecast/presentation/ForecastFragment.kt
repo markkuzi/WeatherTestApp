@@ -1,11 +1,7 @@
 package com.example.forecast.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.BaseFragment
@@ -22,17 +18,15 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
     private val viewModel by viewModel<ForecastViewModel>()
     private val binding by viewBinding(FragmentForecastBinding::bind)
     private val forecastAdapter by lazy { ForecastListAdapter() }
-    private var cityName: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cityName = arguments?.getString(CITY_NAME)
-        viewModel.loadWeather(cityName ?: "")
-        binding.tvCityName.text = cityName
+        viewModel.loadWeather()
         binding.rvForecast.adapter = forecastAdapter
 
         viewModel.forecastWeather.observe(viewLifecycleOwner) {
+            binding.tvCityName.text = it.cityName
             forecastAdapter.submitList(it.weatherList)
         }
 
@@ -43,11 +37,11 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
         }
 
         binding.btnRefresh.setOnClickListener {
-            viewModel.refreshWeather(cityName ?: "")
+            viewModel.refreshWeather()
         }
 
         onTryAgain(root = binding.root) {
-            viewModel.refreshWeather(cityName ?: "")
+            viewModel.refreshWeather()
         }
 
         binding.btnBack.setOnClickListener {
@@ -55,8 +49,5 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
         }
 
     }
-    companion object {
-        private const val CITY_NAME = "cityName"
-    }
-}
 
+}

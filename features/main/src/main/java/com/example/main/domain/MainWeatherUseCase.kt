@@ -8,12 +8,16 @@ class MainWeatherUseCase(
     private val repository: MainRepository,
 ) {
 
-    suspend fun loadWeather(city: String): ResponseResult {
-        return repository.loadWeather(city)
+    suspend fun loadWeather(): ResponseResult {
+        return repository.loadWeather()
     }
 
     fun getMainWeather(): Flow<MainWeather> {
         return repository.getMainWeather()
+    }
+
+    suspend fun saveCityName(city: String) {
+        repository.saveCityName(city)
     }
 
 }

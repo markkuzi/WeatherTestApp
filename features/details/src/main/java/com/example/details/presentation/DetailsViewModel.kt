@@ -11,7 +11,7 @@ import com.example.details.domain.detailsWeatherUseCase
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
-    private val detailsWeatherUseCase: detailsWeatherUseCase
+    private val detailsWeatherUseCase: detailsWeatherUseCase,
 ) : ViewModel() {
 
     val detailsWeather = detailsWeatherUseCase.getDetailsWeather().asLiveData()
@@ -24,10 +24,10 @@ class DetailsViewModel(
         _viewState.value = ViewState.Success()
     }
 
-    fun loadWeather(city: String) {
+    fun loadWeather() {
         viewModelScope.launch {
             _viewState.value = ViewState.Loading()
-            val responseResult = detailsWeatherUseCase.loadWeather(city)
+            val responseResult = detailsWeatherUseCase.loadWeather()
             when (responseResult) {
                 is ResponseResult.Success -> _viewState.value = ViewState.Success()
                 is ResponseResult.Error -> _viewState.value =

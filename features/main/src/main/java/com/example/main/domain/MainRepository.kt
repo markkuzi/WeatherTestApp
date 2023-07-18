@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
 
-    suspend fun loadWeather(city: String): ResponseResult
+    suspend fun loadWeather(): ResponseResult
     fun getMainWeather(): Flow<MainWeather>
+
+    suspend fun saveCityName(city: String)
 
 }

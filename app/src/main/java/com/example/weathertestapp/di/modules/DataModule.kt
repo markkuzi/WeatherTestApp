@@ -9,6 +9,7 @@ import com.example.data.mapper.MainWeatherMapper
 import com.example.data.mapper.WeatherIconMapper
 import com.example.data.mapper.WeatherTempMapper
 import com.example.data.network.NetworkService
+import com.example.data.storage.SharedPrefsCityStorage
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,6 +52,13 @@ val cacheModule = module {
         CacheForecastWeatherRequest.Base()
     }
 
+}
+
+val storageModule = module {
+
+    single<SharedPrefsCityStorage> {
+        SharedPrefsCityStorage.Base(context = get())
+    }
 }
 
 val mapperModule = module {

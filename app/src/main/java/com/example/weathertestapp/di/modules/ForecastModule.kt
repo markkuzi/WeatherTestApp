@@ -15,6 +15,7 @@ val forecastModule = module {
             cacheForecastWeather = get(),
             handleError = get(),
             mapper = get(),
+            storage = get(),
         )
     }
 

@@ -5,14 +5,14 @@ import com.example.forecast.domain.entity.ForecastWeather
 import kotlinx.coroutines.flow.Flow
 
 class ForecastWeatherUseCase(
-    private val repository: ForecastRepository
+    private val repository: ForecastRepository,
 ) {
 
-    suspend fun loadForecastWeather(city: String, getCache: Boolean) : ResponseResult {
-        return repository.loadForecastWeather(city, getCache)
+    suspend fun loadForecastWeather(getCache: Boolean): ResponseResult {
+        return repository.loadForecastWeather(getCache)
     }
 
-    fun getForecastWeather() : Flow<ForecastWeather> {
+    fun getForecastWeather(): Flow<ForecastWeather> {
         return repository.getForecastWeather()
     }
 

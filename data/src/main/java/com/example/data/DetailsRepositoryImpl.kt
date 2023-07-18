@@ -5,6 +5,7 @@ import com.example.core.ResponseResult
 import com.example.data.cache.CacheMainWeatherRequest
 import com.example.data.mapper.DetailsWeatherMapper
 import com.example.data.network.NetworkService
+import com.example.data.storage.SharedPrefsCityStorage
 import com.example.details.domain.DetailsRepository
 import com.example.details.domain.entity.DetailsWeather
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,8 @@ class DetailsRepositoryImpl(
     private val cacheWeatherRequest: CacheMainWeatherRequest,
     private val mapper: DetailsWeatherMapper,
     private val service: NetworkService,
-    private val handleError: HandleError<String>
+    private val handleError: HandleError<String>,
+    private val storage: SharedPrefsCityStorage,
 ) : DetailsRepository {
 
     override fun getDetailsWeather(): Flow<DetailsWeather> =
@@ -23,8 +25,8 @@ class DetailsRepositoryImpl(
                 emit(mapper.map(it))
             }
 
-    override suspend fun loadWeather(city: String): ResponseResult  = try {
-        val mainWeatherDto = service.getMainWeather(city)
+    override suspend fun loadWeather(): ResponseResult = try {
+        val mainWeatherDto = service.getMainWeather(storage.load())
         cacheWeatherRequest.saveCacheWeatherInfo(mainWeatherDto)
         ResponseResult.Success()
     } catch (e: Exception) {

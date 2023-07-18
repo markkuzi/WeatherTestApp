@@ -15,7 +15,6 @@ class MainViewModel(
 ) : ViewModel() {
 
 
-
     val mainWeather = mainWeatherUseCase.getMainWeather().asLiveData()
 
     private var _viewState = MutableLiveData<ViewState>()
@@ -23,14 +22,15 @@ class MainViewModel(
         get() = _viewState
 
     init {
-        if (mainWeather.value == null)
-            loadWeather("Санкт Петербург")
+        loadWeather(null)
     }
 
-    fun loadWeather(city: String) {
+    fun loadWeather(city: String?) {
         viewModelScope.launch {
+            if (city?.trim() != null)
+                mainWeatherUseCase.saveCityName(city.trim())
             _viewState.value = ViewState.Loading()
-            val responseResult = mainWeatherUseCase.loadWeather(city.trim())
+            val responseResult = mainWeatherUseCase.loadWeather()
             when (responseResult) {
                 is ResponseResult.Success -> _viewState.value = ViewState.Success()
                 is ResponseResult.Error -> _viewState.value =

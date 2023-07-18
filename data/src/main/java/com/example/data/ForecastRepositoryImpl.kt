@@ -5,6 +5,7 @@ import com.example.core.ResponseResult
 import com.example.data.cache.CacheForecastWeatherRequest
 import com.example.data.mapper.ForecastWeatherMapper
 import com.example.data.network.NetworkService
+import com.example.data.storage.SharedPrefsCityStorage
 import com.example.forecast.domain.ForecastRepository
 import com.example.forecast.domain.entity.ForecastWeather
 import kotlinx.coroutines.flow.Flow
@@ -15,15 +16,17 @@ class ForecastRepositoryImpl(
     private val cacheForecastWeather: CacheForecastWeatherRequest,
     private val handleError: HandleError<String>,
     private val mapper: ForecastWeatherMapper,
+    private val storage: SharedPrefsCityStorage,
 ) : ForecastRepository {
 
     private var cityName: String? = null
 
-    override suspend fun loadForecastWeather(city: String, getCache: Boolean): ResponseResult {
+    override suspend fun loadForecastWeather(getCache: Boolean): ResponseResult {
         try {
-            if (cityName == city && getCache) return ResponseResult.Success()
-            cityName = city
-            val forecastWeatherDto = service.getForecastWeather(city)
+            val cityNameStorage = storage.load()
+            if (cityName == cityNameStorage && getCache) return ResponseResult.Success()
+            cityName = cityNameStorage
+            val forecastWeatherDto = service.getForecastWeather(cityNameStorage)
             cacheForecastWeather.saveCacheWeatherInfo(forecastWeatherDto)
             return ResponseResult.Success()
         } catch (e: Exception) {

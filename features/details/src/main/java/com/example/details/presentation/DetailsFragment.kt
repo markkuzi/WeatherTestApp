@@ -41,11 +41,11 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             }
 
             onTryAgain(binding.root) {
-                viewModel.loadWeather(it.name)
+                viewModel.loadWeather()
             }
 
             binding.btnRefresh.setOnClickListener { _ ->
-                viewModel.loadWeather(it.name)
+                viewModel.loadWeather()
             }
         }
 

@@ -5,15 +5,15 @@ import com.example.details.domain.entity.DetailsWeather
 import kotlinx.coroutines.flow.Flow
 
 class detailsWeatherUseCase(
-    private val repository: DetailsRepository
+    private val repository: DetailsRepository,
 ) {
 
-    fun getDetailsWeather() : Flow<DetailsWeather> {
+    fun getDetailsWeather(): Flow<DetailsWeather> {
         return repository.getDetailsWeather()
     }
 
-    suspend fun loadWeather(city: String) : ResponseResult {
-        return repository.loadWeather(city)
+    suspend fun loadWeather(): ResponseResult {
+        return repository.loadWeather()
     }
 
 }

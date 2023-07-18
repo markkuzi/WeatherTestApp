@@ -6,11 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.text.isDigitsOnly
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.BaseFragment
@@ -60,9 +55,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
             findNavController().navigate(Uri.parse("weatherTestApp://details"))
         }
         binding.btnForecast.setOnClickListener {
-            findNavController().navigate(
-                Uri.parse("weatherTestApp://forecast/${binding.cityName.text}")
-            )
+            findNavController().navigate(Uri.parse("weatherTestApp://forecast"))
         }
     }
 
@@ -80,7 +73,5 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
             viewModel.loadWeather(searchCity.toString())
             dialog.hide()
         }
-
-
     }
 }

@@ -15,6 +15,7 @@ val detailsModule = module {
             mapper = get(),
             service = get(),
             handleError = get(),
+            storage = get(),
         )
     }
 

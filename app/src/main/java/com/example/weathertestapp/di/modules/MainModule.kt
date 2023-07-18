@@ -15,6 +15,7 @@ val mainModule = module {
             cacheWeatherRequest = get(),
             handleError = get(),
             mapper = get(),
+            storage = get(),
         )
     }
 
