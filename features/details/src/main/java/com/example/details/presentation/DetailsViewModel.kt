@@ -3,17 +3,15 @@ package com.example.details.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.core.ResponseResult
 import com.example.core.ViewState
-import com.example.details.domain.detailsWeatherUseCase
+import com.example.details.domain.DetailsWeatherUseCase
 import com.example.details.domain.entity.DetailsWeather
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
-    private val detailsWeatherUseCase: detailsWeatherUseCase,
+    private val detailsWeatherUseCase: DetailsWeatherUseCase,
 ) : ViewModel() {
 
     //val detailsWeather = detailsWeatherUseCase.getDetailsWeather().asLiveData()

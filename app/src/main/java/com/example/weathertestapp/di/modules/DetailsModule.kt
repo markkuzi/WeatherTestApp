@@ -2,7 +2,7 @@ package com.example.weathertestapp.di.modules
 
 import com.example.data.DetailsRepositoryImpl
 import com.example.details.domain.DetailsRepository
-import com.example.details.domain.detailsWeatherUseCase
+import com.example.details.domain.DetailsWeatherUseCase
 import com.example.details.presentation.DetailsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -19,8 +19,8 @@ val detailsModule = module {
         )
     }
 
-    factory<detailsWeatherUseCase> {
-        detailsWeatherUseCase(
+    factory<DetailsWeatherUseCase> {
+        DetailsWeatherUseCase.Base(
             repository = get(),
         )
     }
