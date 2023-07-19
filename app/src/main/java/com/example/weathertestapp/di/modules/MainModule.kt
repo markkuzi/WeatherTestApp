@@ -20,7 +20,7 @@ val mainModule = module {
     }
 
     factory<MainWeatherUseCase> {
-        MainWeatherUseCase(
+        MainWeatherUseCase.Base(
             repository = get(),
         )
     }
