@@ -37,7 +37,7 @@ class DetailsViewModelTest {
     @Before
     fun init() {
         useCase = TestDetailsWeatherUseCase()
-        viewModel = DetailsViewModel(useCase)
+        //viewModel = DetailsViewModel(useCase)
     }
 
     @Test
@@ -69,8 +69,10 @@ class DetailsViewModelTest {
     @Test
     fun `test failure load weather`() {
 
+        useCase = TestDetailsWeatherUseCase()
         useCase.changeExpectedResult(ResponseResult.Error("ErrorMessage"))
         useCase.changeSuccess(false)
+        viewModel = DetailsViewModel(useCase)
 
         assertEquals(0, useCase.loadCalledList.size)
         assertEquals(1, useCase.getDetailsWeatherCalledList.size)

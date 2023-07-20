@@ -16,7 +16,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -34,21 +33,12 @@ class MainViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Before
-    fun init() {
-        useCase = TestMainWeatherUseCase()
-        viewModel = MainViewModel(useCase)
-    }
-
     @Test
     fun `test init load weather with null`() {
+        //Prepare data
+        useCase = TestMainWeatherUseCase()
         useCase.changeExpectedResult(ResponseResult.Success())
         useCase.changeSuccess(true)
-
-        assertEquals(1, useCase.loadCalledList.size)
-        assertEquals(1, useCase.getWeatherCalledList.size)
-        assertEquals(useCase.getWeatherCalledList[0].value, viewModel.mainWeather.value)
-
         useCase.changeExpectedWeather(
             MainWeather(
                 "today",
@@ -61,31 +51,71 @@ class MainViewModelTest {
                 "Rains"
             )
         )
+        //init view model
+        viewModel = MainViewModel(useCase)
 
-        viewModel.loadWeather(null)
-
+        //check view model init
         assertEquals(0, useCase.saveCityCalledList.size)
-        assertEquals(2, useCase.loadCalledList.size)
-        assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Success)
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Success)
         assertEquals(true, viewModel.viewState.value is ViewState.Success)
-
         assertEquals(
             MainWeather("today", "Moscow", "35", "40", "10", "10", 1, "Rains"),
             viewModel.mainWeather.value
         )
 
+        //call load weather
+        viewModel.loadWeather(null)
+
+
+        //check load weather
+        assertEquals(0, useCase.saveCityCalledList.size)
+        assertEquals(2, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Success)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            MainWeather("today", "Moscow", "35", "40", "10", "10", 1, "Rains"),
+            viewModel.mainWeather.value
+        )
     }
 
     @Test
-    fun `test success load weather`() {
+    fun `test success load weather when was success`() {
+
+        //Prepare data
+        useCase = TestMainWeatherUseCase()
         useCase.changeExpectedResult(ResponseResult.Success())
-
         useCase.changeSuccess(true)
+        useCase.changeExpectedWeather(
+            MainWeather(
+                "today",
+                "Saint Petersburg",
+                "35",
+                "40",
+                "10",
+                "10",
+                1,
+                "Rains"
+            )
+        )
 
+        //init view model
+        viewModel = MainViewModel(useCase)
+
+        //check view model init
+        assertEquals(0, useCase.saveCityCalledList.size)
         assertEquals(1, useCase.loadCalledList.size)
         assertEquals(1, useCase.getWeatherCalledList.size)
-        assertEquals(useCase.getWeatherCalledList[0].value, viewModel.mainWeather.value)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Success)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            MainWeather("today", "Saint Petersburg", "35", "40", "10", "10", 1, "Rains"),
+            viewModel.mainWeather.value
+        )
 
+        //change data
         useCase.changeExpectedWeather(
             MainWeather(
                 "today",
@@ -98,38 +128,194 @@ class MainViewModelTest {
                 "Rains"
             )
         )
+
+        //call load weather
         viewModel.loadWeather("Moscow")
 
+        //check load weather
+        assertEquals(1, useCase.saveCityCalledList.size)
+        assertEquals(2, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Success)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            MainWeather("today", "Moscow", "35", "40", "10", "10", 1, "Rains"),
+            viewModel.mainWeather.value
+        )
+    }
+
+    @Test
+    fun `test success load weather when was failure`() {
+
+        //Prepare data
+        useCase = TestMainWeatherUseCase()
+        useCase.changeExpectedResult(ResponseResult.Error("Error message"))
+        useCase.changeSuccess(false)
+
+        //init view model
+        viewModel = MainViewModel(useCase)
+
+        //check view model init
+        assertEquals(0, useCase.saveCityCalledList.size)
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Error)
+        assertEquals(true, viewModel.viewState.value is ViewState.Error)
+
+        //change data
+        useCase.changeExpectedWeather(
+            MainWeather(
+                "today",
+                "Moscow",
+                "35",
+                "40",
+                "10",
+                "10",
+                1,
+                "Rains"
+            )
+        )
+        useCase.changeExpectedResult(ResponseResult.Success())
+        useCase.changeSuccess(true)
+
+        //call load weather
+        viewModel.loadWeather("Moscow")
+
+        //check load weather
         assertEquals(1, useCase.saveCityCalledList.size)
         assertEquals(2, useCase.loadCalledList.size)
         assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Success)
         assertEquals(true, viewModel.viewState.value is ViewState.Success)
-
         assertEquals(
             MainWeather("today", "Moscow", "35", "40", "10", "10", 1, "Rains"),
             viewModel.mainWeather.value
         )
-
     }
 
     @Test
-    fun `test failure load weather`() {
+    fun `test failure load weather when was success`() {
 
+        //Prepare data
+        useCase = TestMainWeatherUseCase()
+        useCase.changeExpectedResult(ResponseResult.Success())
+        useCase.changeSuccess(true)
+
+        //init view model
+        viewModel = MainViewModel(useCase)
+
+        //check view model init
+        assertEquals(0, useCase.saveCityCalledList.size)
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Success)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+
+        //change data
         useCase.changeExpectedResult(ResponseResult.Error("error message"))
         useCase.changeSuccess(false)
 
-        assertEquals(1, useCase.loadCalledList.size)
-        assertEquals(1, useCase.getWeatherCalledList.size)
-
+        //call load weather
         viewModel.loadWeather("Moscow")
 
+        //check load weather
         assertEquals(1, useCase.saveCityCalledList.size)
         assertEquals(2, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Error)
+        assertEquals(true, viewModel.viewState.value is ViewState.Error)
+        assertEquals("error message", viewModel.viewState.value?.message)
+    }
+
+    @Test
+    fun `test failure load weather when was failure`() {
+
+        //Prepare data
+        useCase = TestMainWeatherUseCase()
+        useCase.changeExpectedResult(ResponseResult.Error("error message"))
+        useCase.changeSuccess(false)
+
+        //init view model
+        viewModel = MainViewModel(useCase)
+
+        //check view model init
+        assertEquals(0, useCase.saveCityCalledList.size)
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Error)
+        assertEquals(true, viewModel.viewState.value is ViewState.Error)
+
+        //call load weather
+        viewModel.loadWeather("Moscow")
+
+        //check load weather
+        assertEquals(1, useCase.saveCityCalledList.size)
+        assertEquals(2, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
         assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Error)
         assertEquals(true, viewModel.viewState.value is ViewState.Error)
         assertEquals("error message", viewModel.viewState.value?.message)
         assertEquals(1, useCase.getWeatherCalledList.size)
+    }
 
+    @Test
+    fun `test update flow weather`() {
+
+        //Prepare data
+        useCase = TestMainWeatherUseCase()
+        useCase.changeExpectedResult(ResponseResult.Success())
+        useCase.changeSuccess(true)
+        useCase.changeExpectedWeather(
+            MainWeather(
+                "today",
+                "Saint Petersburg",
+                "35",
+                "10",
+                "40",
+                "10",
+                1,
+                "Rains"
+            )
+        )
+
+        //init view model
+        viewModel = MainViewModel(useCase)
+
+        //check view model init
+        assertEquals(0, useCase.saveCityCalledList.size)
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Success)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            MainWeather("today", "Saint Petersburg", "35", "10", "40", "10", 1, "Rains"),
+            viewModel.mainWeather.value
+        )
+
+        //change data
+        useCase.changeExpectedWeather(
+            MainWeather(
+                "today",
+                "Moscow",
+                "35",
+                "40",
+                "10",
+                "10",
+                1,
+                "Rains"
+            )
+        )
+        useCase.changeFlowValue()
+
+        //check after change flow
+        assertEquals(0, useCase.saveCityCalledList.size)
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Success)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            MainWeather("today", "Moscow", "35", "40", "10", "10", 1, "Rains"),
+            viewModel.mainWeather.value
+        )
     }
 }
 
@@ -163,9 +349,13 @@ private class TestMainWeatherUseCase : MainWeatherUseCase {
         this.success = success
     }
 
+    fun changeFlowValue() {
+        weatherFlow.value = weather
+    }
+
     override suspend fun loadWeather(): ResponseResult {
         if (success) {
-            weatherFlow.value = weather
+            changeFlowValue()
         }
         loadCalledList.add(result)
         return result
