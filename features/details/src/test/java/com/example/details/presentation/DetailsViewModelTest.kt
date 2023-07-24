@@ -16,7 +16,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -34,33 +33,63 @@ class DetailsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Before
-    fun init() {
-        useCase = TestDetailsWeatherUseCase()
-        //viewModel = DetailsViewModel(useCase)
-    }
-
     @Test
     fun `test success load weather`() {
+        //prepare data
+        useCase = TestDetailsWeatherUseCase()
         useCase.changeExpectedResult(ResponseResult.Success())
         useCase.changeSuccess(true)
+        useCase.changeExpectedWeather(
+            DetailsWeather(
+                "35",
+                "Saint Petersburg",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                1,
+            )
+        )
+        useCase.changeFlowValue()
 
+        //init view model
+        viewModel = DetailsViewModel(useCase)
+
+        //check after init
         assertEquals(0, useCase.loadCalledList.size)
         assertEquals(1, useCase.getDetailsWeatherCalledList.size)
         assertEquals(true, viewModel.viewState.value is ViewState.Success)
-        assertEquals(useCase.getDetailsWeatherCalledList[0].value, viewModel.detailsWeather.value)
-
-        viewModel.loadWeather()
-
-        assertEquals(1, useCase.loadCalledList.size)
-        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Success)
-        assertEquals(true, viewModel.viewState.value is ViewState.Success)
-
         assertEquals(
             DetailsWeather(
-                "", "Saint Petersburg", "", "", "",
-                "", "", "", "", "", "",
-                "", "", "", "", 0
+                "35", "Saint Petersburg", "35", "35", "35",
+                "35", "35", "35", "35", "35", "35",
+                "35", "35", "35", "35", 1
+            ),
+            viewModel.detailsWeather.value
+        )
+
+        //call load weather
+        viewModel.loadWeather()
+
+        //check load weather
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getDetailsWeatherCalledList.size)
+        assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Success)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            DetailsWeather(
+                "35", "Saint Petersburg", "35", "35", "35",
+                "35", "35", "35", "35", "35", "35",
+                "35", "35", "35", "35", 1
             ),
             viewModel.detailsWeather.value
         )
@@ -69,18 +98,52 @@ class DetailsViewModelTest {
     @Test
     fun `test failure load weather`() {
 
+        //prepare data
         useCase = TestDetailsWeatherUseCase()
         useCase.changeExpectedResult(ResponseResult.Error("ErrorMessage"))
         useCase.changeSuccess(false)
+        useCase.changeExpectedWeather(
+            DetailsWeather(
+                "35",
+                "Saint Petersburg",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                1,
+            )
+        )
+        useCase.changeFlowValue()
+
+        //init view model
         viewModel = DetailsViewModel(useCase)
 
+        //check after init
         assertEquals(0, useCase.loadCalledList.size)
         assertEquals(1, useCase.getDetailsWeatherCalledList.size)
         assertEquals(true, viewModel.viewState.value is ViewState.Success)
-        assertEquals(useCase.getDetailsWeatherCalledList[0].value, viewModel.detailsWeather.value)
+        assertEquals(
+            DetailsWeather(
+                "35", "Saint Petersburg", "35", "35", "35",
+                "35", "35", "35", "35", "35", "35",
+                "35", "35", "35", "35", 1
+            ),
+            viewModel.detailsWeather.value
+        )
 
+        //call load weather
         viewModel.loadWeather()
 
+        //check load weather
         assertEquals(1, useCase.loadCalledList.size)
         assertEquals(true, useCase.loadCalledList[0] is ResponseResult.Error)
         assertEquals(true, viewModel.viewState.value is ViewState.Error)
@@ -91,28 +154,67 @@ class DetailsViewModelTest {
     @Test
     fun `test update flow weather`() {
 
-        assertEquals(0, useCase.loadCalledList.size)
-        assertEquals(1, useCase.getDetailsWeatherCalledList.size)
-        assertEquals(true, viewModel.viewState.value is ViewState.Success)
-        assertEquals(useCase.getDetailsWeatherCalledList[0].value, viewModel.detailsWeather.value)
-
+        //prepare data
+        useCase = TestDetailsWeatherUseCase()
+        useCase.changeExpectedResult(ResponseResult.Success())
+        useCase.changeSuccess(true)
         useCase.changeExpectedWeather(
             DetailsWeather(
-                "today", "Moscow", "35", "35", "35",
-                "35", "35", "35", "35", "35", "35",
-                "35", "35", "35", "35", 1
+                "35",
+                "Saint Petersburg",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                1,
             )
         )
         useCase.changeFlowValue()
 
+        //init view model
+        viewModel = DetailsViewModel(useCase)
+
+        //check after init
         assertEquals(0, useCase.loadCalledList.size)
         assertEquals(1, useCase.getDetailsWeatherCalledList.size)
         assertEquals(true, viewModel.viewState.value is ViewState.Success)
         assertEquals(
             DetailsWeather(
-                "today", "Moscow", "35", "35", "35",
+                "35", "Saint Petersburg", "35", "35", "35",
                 "35", "35", "35", "35", "35", "35",
                 "35", "35", "35", "35", 1
+            ),
+            viewModel.detailsWeather.value
+        )
+
+        //change expected weather
+        useCase.changeExpectedWeather(
+            DetailsWeather(
+                "today", "Moscow", "25", "25", "25",
+                "25", "25", "25", "25", "25", "25",
+                "25", "25", "25", "25", 2
+            )
+        )
+        useCase.changeFlowValue()
+
+        //check after change
+        assertEquals(0, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getDetailsWeatherCalledList.size)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            DetailsWeather(
+                "today", "Moscow", "25", "25", "25",
+                "25", "25", "25", "25", "25", "25",
+                "25", "25", "25", "25", 2
             ),
             viewModel.detailsWeather.value
         )
