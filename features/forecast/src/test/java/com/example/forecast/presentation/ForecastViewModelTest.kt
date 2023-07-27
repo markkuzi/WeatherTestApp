@@ -249,6 +249,51 @@ class ForecastViewModelTest {
         assertEquals("Error message", viewModel.viewState.value?.message)
     }
 
+    @Test
+    fun `test change flow weather`() {
+        //prepare data
+        useCase = TestForecastWeatherUseCase()
+        useCase.changeExpectedResult(ResponseResult.Success())
+        useCase.changeSuccess(true)
+        useCase.changeExpectedWeather(
+            ForecastWeather("Saint Petersburg", emptyList())
+        )
+
+        //init view model
+        viewModel = ForecastViewModel(useCase)
+
+        //check after init
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getForecastWeatherCalledList.size)
+        assertEquals(1, useCase.getCacheCalledList.size)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(true, useCase.getCacheCalledList[0])
+        assertEquals(
+            ForecastWeather("Saint Petersburg", emptyList()),
+            viewModel.forecastWeather.value
+        )
+
+        //change data
+        useCase.changeExpectedWeather(
+            ForecastWeather("Saint Petersburg",
+                listOf(WeatherList("35", "35", "35", "35", 1))
+            )
+        )
+        useCase.changeFlowValue()
+
+        //check after refresh weather
+        assertEquals(1, useCase.loadCalledList.size)
+        assertEquals(1, useCase.getForecastWeatherCalledList.size)
+        assertEquals(1, useCase.getCacheCalledList.size)
+        assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals(
+            ForecastWeather("Saint Petersburg",
+                listOf(WeatherList("35", "35", "35", "35", 1))
+            ),
+            viewModel.forecastWeather.value
+        )
+    }
+
 }
 
 class TestForecastWeatherUseCase : ForecastWeatherUseCase {
