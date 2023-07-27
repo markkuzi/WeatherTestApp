@@ -138,6 +138,7 @@ class MainViewModelTest {
         assertEquals(1, useCase.getWeatherCalledList.size)
         assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Success)
         assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals("Moscow", useCase.saveCityCalledList[0])
         assertEquals(
             MainWeather("today", "Moscow", "35", "40", "10", "10", 1, "Rains"),
             viewModel.mainWeather.value
@@ -186,6 +187,7 @@ class MainViewModelTest {
         assertEquals(2, useCase.loadCalledList.size)
         assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Success)
         assertEquals(true, viewModel.viewState.value is ViewState.Success)
+        assertEquals("Moscow", useCase.saveCityCalledList[0])
         assertEquals(
             MainWeather("today", "Moscow", "35", "40", "10", "10", 1, "Rains"),
             viewModel.mainWeather.value
@@ -223,6 +225,7 @@ class MainViewModelTest {
         assertEquals(1, useCase.getWeatherCalledList.size)
         assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Error)
         assertEquals(true, viewModel.viewState.value is ViewState.Error)
+        assertEquals("Moscow", useCase.saveCityCalledList[0])
         assertEquals("error message", viewModel.viewState.value?.message)
     }
 
@@ -254,6 +257,7 @@ class MainViewModelTest {
         assertEquals(true, useCase.loadCalledList[1] is ResponseResult.Error)
         assertEquals(true, viewModel.viewState.value is ViewState.Error)
         assertEquals("error message", viewModel.viewState.value?.message)
+        assertEquals("Moscow", useCase.saveCityCalledList[0])
         assertEquals(1, useCase.getWeatherCalledList.size)
     }
 
@@ -335,7 +339,7 @@ private class TestMainWeatherUseCase : MainWeatherUseCase {
 
     val loadCalledList = mutableListOf<ResponseResult>()
     val getWeatherCalledList = mutableListOf<StateFlow<MainWeather>>()
-    val saveCityCalledList = mutableListOf<Boolean>()
+    val saveCityCalledList = mutableListOf<String>()
 
     fun changeExpectedResult(newResult: ResponseResult) {
         result = newResult
@@ -367,7 +371,7 @@ private class TestMainWeatherUseCase : MainWeatherUseCase {
     }
 
     override suspend fun saveCityName(city: String) {
-        saveCityCalledList.add(true)
+        saveCityCalledList.add(city)
     }
 }
 
