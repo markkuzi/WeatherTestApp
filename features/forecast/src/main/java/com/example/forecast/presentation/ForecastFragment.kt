@@ -22,7 +22,6 @@ class ForecastFragment : BaseFragment(R.layout.fragment_forecast) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadWeather()
         binding.rvForecast.adapter = forecastAdapter
 
         viewModel.forecastWeather.observe(viewLifecycleOwner) {
