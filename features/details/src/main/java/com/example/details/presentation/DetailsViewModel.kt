@@ -3,18 +3,22 @@ package com.example.details.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.core.ResponseResult
 import com.example.core.ViewState
-import com.example.details.domain.detailsWeatherUseCase
+import com.example.details.domain.DetailsWeatherUseCase
+import com.example.details.domain.entity.DetailsWeather
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
-    private val detailsWeatherUseCase: detailsWeatherUseCase,
+    private val detailsWeatherUseCase: DetailsWeatherUseCase,
 ) : ViewModel() {
 
-    val detailsWeather = detailsWeatherUseCase.getDetailsWeather().asLiveData()
+    //val detailsWeather = detailsWeatherUseCase.getDetailsWeather().asLiveData()
+
+    private var _detailsWeather = MutableLiveData<DetailsWeather>()
+    val detailsWeather: LiveData<DetailsWeather>
+        get() = _detailsWeather
 
     private var _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState>
@@ -22,6 +26,11 @@ class DetailsViewModel(
 
     init {
         _viewState.value = ViewState.Success()
+        viewModelScope.launch {
+            detailsWeatherUseCase.getDetailsWeather().collect{
+                _detailsWeather.value = it
+            }
+        }
     }
 
     fun loadWeather() {
@@ -29,7 +38,9 @@ class DetailsViewModel(
             _viewState.value = ViewState.Loading()
             val responseResult = detailsWeatherUseCase.loadWeather()
             when (responseResult) {
-                is ResponseResult.Success -> _viewState.value = ViewState.Success()
+                is ResponseResult.Success -> {
+                    _viewState.value = ViewState.Success()
+                }
                 is ResponseResult.Error -> _viewState.value =
                     ViewState.Error(responseResult.message)
             }

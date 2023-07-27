@@ -3,22 +3,33 @@ package com.example.forecast.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.core.ResponseResult
 import com.example.core.ViewState
 import com.example.forecast.domain.ForecastWeatherUseCase
+import com.example.forecast.domain.entity.ForecastWeather
 import kotlinx.coroutines.launch
 
 class ForecastViewModel(
     private val forecastWeatherUseCase: ForecastWeatherUseCase,
 ) : ViewModel() {
 
-    val forecastWeather = forecastWeatherUseCase.getForecastWeather().asLiveData()
+    private var _forecastWeather = MutableLiveData<ForecastWeather>()
+    val forecastWeather: LiveData<ForecastWeather>
+        get() = _forecastWeather
 
     private var _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState>
         get() = _viewState
+
+    init {
+        loadForecastWeather(true)
+        viewModelScope.launch {
+            forecastWeatherUseCase.getForecastWeather().collect {
+                _forecastWeather.value = it
+            }
+        }
+    }
 
     private fun loadForecastWeather(getCache: Boolean) {
         viewModelScope.launch {
@@ -30,10 +41,6 @@ class ForecastViewModel(
                     ViewState.Error(responseResult.message)
             }
         }
-    }
-
-    fun loadWeather() {
-        loadForecastWeather(true)
     }
 
     fun refreshWeather() {

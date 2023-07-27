@@ -20,7 +20,7 @@ val forecastModule = module {
     }
 
     factory<ForecastWeatherUseCase> {
-        ForecastWeatherUseCase(
+        ForecastWeatherUseCase.Base(
             repository = get(),
         )
     }
